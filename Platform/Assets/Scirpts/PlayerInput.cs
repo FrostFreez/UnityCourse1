@@ -4,31 +4,35 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private InputActionAsset actions;
-    private InputAction horizontalMoveAction;
-    public float horizontalMove;
+    [SerializeField] private int playerIndex;
+    private InputAction moveAction;
+    public Vector2 moveDirection;
 
     private InputAction jumpAction;
     public bool jumpHeld = false;
     public bool jumpPressed = false;
+    public bool jumpReleased = false;
 
-    private InputAction attackAction;
-    public bool attackHeld = false;
-    public bool attackPressed = false;
+    private InputAction useAction;
+    public bool useHeld = false;
+    public bool usePressed = false;
+    public bool useReleased = false;
 
-    private void Start()
+    public void Start()
     {
-        horizontalMoveAction = actions.FindAction("Move");
-        jumpAction = actions.FindAction("Jump");
-        attackAction = actions.FindAction("Attack");
+        moveAction = actions.FindActionMap("Player" + playerIndex).FindAction("Move");
+        jumpAction = actions.FindActionMap("Player" + playerIndex).FindAction("Jump");
+        useAction = actions.FindActionMap("Player" + playerIndex).FindAction("Use");
     }
 
-    private void Update()
+    public void Update()
     {
-        horizontalMove = horizontalMoveAction.ReadValue<Vector2>().x;
-        jumpPressed = jumpHeld ? false : jumpAction.IsPressed();
+        moveDirection = moveAction.ReadValue<Vector2>();
+        jumpReleased = jumpHeld && !jumpAction.IsPressed();
+        jumpPressed = !jumpHeld && jumpAction.IsPressed();
         jumpHeld = jumpAction.IsPressed();
-        attackPressed = attackHeld ? false : attackAction.IsPressed();
-        attackHeld = attackAction.IsPressed();
+        useReleased = useHeld && !useAction.IsPressed();
+        usePressed = !useHeld && useAction.IsPressed();
+        useHeld = useAction.IsPressed();
     }
-
 }
