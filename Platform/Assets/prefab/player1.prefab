@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 638008500160794197}
   - component: {fileID: 2315233268720430591}
   - component: {fileID: 8015101970092449232}
+  - component: {fileID: 5004530019094435211}
   - component: {fileID: 8585121080177205177}
   - component: {fileID: 4891773918496026277}
   m_Layer: 8
@@ -126,10 +127,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlaceBlock
   input: {fileID: 0}
   sr: {fileID: 0}
+  usesLeft: 0
   grid: {fileID: 0}
   tileMapPrefab: {fileID: 5873871262896829378, guid: 3f6deea22c88246418dce4cbe8a784fe, type: 3}
-  tilemap: {fileID: 0}
+  fences: {fileID: 0}
   tile: {fileID: 11400000, guid: dd2071db989eac74284af79ded930252, type: 2}
+--- !u!114 &5004530019094435211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873370576078701428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d64d2214e8fd94fbde0f40ecc4e39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityUIManager
+  ability: {fileID: 8015101970092449232}
+  countText: {fileID: 0}
 --- !u!50 &8585121080177205177
 Rigidbody2D:
   serializedVersion: 5
@@ -274,7 +290,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1345683853
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 372732670971746452, guid: 938fcd7914b5e3a418ceb11baf3879e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

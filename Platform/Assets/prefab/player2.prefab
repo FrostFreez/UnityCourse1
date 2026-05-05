@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 638008500160794197}
   - component: {fileID: 7721660362310841653}
   - component: {fileID: 8973946839234263182}
+  - component: {fileID: -8211749538285497544}
   - component: {fileID: 8585121080177205177}
   - component: {fileID: 4891773918496026277}
   m_Layer: 8
@@ -125,8 +126,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaceBomb
   input: {fileID: 2151052444939915206}
-  bomb: {fileID: 4217547413754740311, guid: 3b0cf0b1161a4864f82a80b709a022fa, type: 3}
   sr: {fileID: 0}
+  usesLeft: 0
+  bomb: {fileID: 4217547413754740311, guid: 3b0cf0b1161a4864f82a80b709a022fa, type: 3}
+--- !u!114 &-8211749538285497544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873370576078701428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d64d2214e8fd94fbde0f40ecc4e39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityUIManager
+  ability: {fileID: 8973946839234263182}
+  countText: {fileID: 0}
 --- !u!50 &8585121080177205177
 Rigidbody2D:
   serializedVersion: 5
@@ -271,7 +287,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1345683853
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7481508862294354982, guid: 35983571c9253ac46a0e0bb6de2d25ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

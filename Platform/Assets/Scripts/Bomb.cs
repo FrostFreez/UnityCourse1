@@ -9,6 +9,9 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float explosionRadius = 3f;
     [SerializeField] private bool exploded = false;
 
+    public delegate void OnDestroySelf(Bomb bomb);
+    public OnDestroySelf destroySelf;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -35,13 +38,31 @@ public class Bomb : MonoBehaviour
                             (collider.transform.position - transform.position).normalized * explosionForce);
                         break;
                     case "Fence":
-                        Tilemap tilemap = collider.GetComponent<Tilemap>();
+                        Tilemap fenceTilemap = collider.GetComponent<Tilemap>();
                         for (int i = -(int)explosionRadius; i <= explosionRadius; i++)
                         {
                             for (int j = -(int)explosionRadius; j <= explosionRadius; j++)
                             {
-                                Vector3Int pos = tilemap.layoutGrid.WorldToCell(transform.position + new Vector3(i, j));
-                                tilemap.SetTile(pos, null);
+                                if (new Vector2(i, j).sqrMagnitude <= explosionRadius * explosionRadius)
+                                {
+                                Vector3Int pos = fenceTilemap.layoutGrid.WorldToCell(transform.position + new Vector3(i, j));
+                                    fenceTilemap.SetTile(pos, null);
+                                }
+                            }
+                        }
+                        break;
+                    case "Breakable":
+                        Tilemap breakableTilemap = collider.GetComponent<Tilemap>();
+                        for (int i = -(int)explosionRadius; i <= explosionRadius; i++)
+                        {
+                            for (int j = -(int)explosionRadius; j <= explosionRadius; j++)
+                            {
+                                if (new Vector2(i, j).sqrMagnitude <= explosionRadius * explosionRadius)
+                                {
+                                    Vector3Int pos = breakableTilemap.layoutGrid.WorldToCell(transform.position + new Vector3(i, j));
+                                    breakableTilemap.SetTile(pos, null);
+                                }
+
                             }
                         }
                         break;
@@ -57,6 +78,7 @@ public class Bomb : MonoBehaviour
 
     public void DestroySelf()
     {
+        destroySelf(this);
         Destroy(gameObject);
     }
 }
