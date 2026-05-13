@@ -14,6 +14,7 @@ public abstract class PlayerGroundedState : PlayerState
 {
     [field: SerializeField] protected bool isGrounded;
     [field: SerializeField] protected bool isJumping;
+    [field: SerializeField] protected bool canJump;
     [field: SerializeField] protected Vector2 input;
     public PlayerGroundedState(EntityController controller, StateMachine stateMachine, string animString, PlayerController player) : base(controller, stateMachine, animString, player)
     {
@@ -21,6 +22,7 @@ public abstract class PlayerGroundedState : PlayerState
     public override void DoChecks()
     {
         isGrounded = Physics2D.OverlapBox(player.feet.position, player.feetSize, 0, LayerMask.GetMask("Ground"));
+        canJump = !Physics2D.OverlapBox(player.head.position, player.feetSize, 0, LayerMask.GetMask("Player"));
         isJumping = player.input.jumpHeld;
         input = player.input.moveDirection;
         base.DoChecks();
@@ -32,7 +34,7 @@ public abstract class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.airState);
         }
-        if (isJumping)
+        if (isJumping && canJump)
         {
             player.mh.SetVelocityY(player.jumpForce);
         }
@@ -94,9 +96,16 @@ public class PlayerAirState : PlayerState
 {
     [field: SerializeField] protected bool IsGrounded;
     [field: SerializeField] protected bool isJumping;
+    [field: SerializeField] protected bool jumped;
     [field: SerializeField] protected Vector2 input;
     public PlayerAirState(EntityController controller, StateMachine stateMachine, string animString, PlayerController player) : base(controller, stateMachine, animString, player)
     {
+    }
+    public override void Enter()
+    {
+        base.Enter();
+
+        jumped = player.input.jumpHeld;
     }
     public override void DoChecks()
     {
@@ -125,8 +134,11 @@ public class PlayerAirState : PlayerState
         if (player.input.jumpReleased && player.rb.linearVelocityY > 0)
         {
             player.mh.SetVelocityY(0);
+        }else if (player.input.jumpPressed && Time.time - enterTime < 0.02f && !jumped)
+        {
+            player.mh.SetVelocityY(player.jumpForce);
+            jumped = true;
         }
-
         controller.anim.SetFloat("YVelocity", controller.rb.linearVelocityY);
     }
     public override void PhysicsUpdate()

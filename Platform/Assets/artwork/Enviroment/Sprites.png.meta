@@ -1831,7 +1831,7 @@ TextureImporter:
       name: Stone4
       rect:
         serializedVersion: 2
-        x: 240
+        x: 239
         y: 144
         width: 32
         height: 32
@@ -2007,7 +2007,7 @@ TextureImporter:
       name: Table1
       rect:
         serializedVersion: 2
-        x: 464
+        x: 465
         y: 144
         width: 32
         height: 32

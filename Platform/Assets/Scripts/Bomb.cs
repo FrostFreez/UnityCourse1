@@ -5,7 +5,8 @@ public class Bomb : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float cooldownDuration = 5f;
-    [SerializeField] private float explosionForce = 20f;
+    [SerializeField] private float explosionForceP1 = 20f;
+    [SerializeField] private float explosionForceP2 = 20f;
     [SerializeField] private float explosionRadius = 3f;
     [SerializeField] private bool exploded = false;
 
@@ -34,8 +35,7 @@ public class Bomb : MonoBehaviour
                 switch (collider.tag)
                 {
                     case "Player":
-                        collider.GetComponent<MovementHandler>().AddForce(
-                            (collider.transform.position - transform.position).normalized * explosionForce);
+                        ExplodingCharacters(collider.GetComponent<MovementHandler>());
                         break;
                     case "Fence":
                         Tilemap fenceTilemap = collider.GetComponent<Tilemap>();
@@ -45,7 +45,7 @@ public class Bomb : MonoBehaviour
                             {
                                 if (new Vector2(i, j).sqrMagnitude <= explosionRadius * explosionRadius)
                                 {
-                                Vector3Int pos = fenceTilemap.layoutGrid.WorldToCell(transform.position + new Vector3(i, j));
+                                    Vector3Int pos = fenceTilemap.layoutGrid.WorldToCell(transform.position + new Vector3(i, j));
                                     fenceTilemap.SetTile(pos, null);
                                 }
                             }
@@ -73,6 +73,18 @@ public class Bomb : MonoBehaviour
         else if (!exploded)
         {
             anim.speed = 1f / cooldownDuration;
+        }
+    }
+
+    public void ExplodingCharacters(MovementHandler mh)
+    {
+        if (mh.name.Contains("player1"))
+        {
+            mh.AddForce((mh.transform.position - transform.position).normalized * explosionForceP1);
+        }
+        else
+        {
+            mh.AddForce((mh.transform.position - transform.position).normalized * explosionForceP2);
         }
     }
 

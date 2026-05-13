@@ -10,6 +10,7 @@ public class PlayerController : EntityController
 
     public Transform feet;
     public Vector2 feetSize;
+    public Transform head;
 
     public float speed;
     public float jumpForce;
@@ -26,5 +27,6 @@ public class PlayerController : EntityController
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(feet.position, feetSize);
+        Gizmos.DrawCube(head.position, feetSize);
     }
 }

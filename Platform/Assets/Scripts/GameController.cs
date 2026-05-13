@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -20,10 +21,20 @@ public class GameController : MonoBehaviour
     public ResetLevel resetLevel;
     public int levelIndex = 0;
     [SerializeField] private InputActionAsset input;
-    [SerializeField] private GameObject winPanel;
+    public GameObject winPanel;
+    public GameObject pausePanel;
+    private bool gamePaused = false;
+    private bool won = false;
+
+    private float totalTime = 0;
+    private float currentTime = 0;
+
+    public Text timer;
+
     private void Awake()
     {
         Instance = this;
+        currentTime = Time.time;
     }
     private void Start()
     {
@@ -46,6 +57,32 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        string text = "";
+        if (gamePaused || won)
+        {
+            text = totalTime.ToString();
+        }
+        else
+        {
+            text = (totalTime + Time.time - currentTime).ToString();
+        }
+        int j = 0;
+        while (j < text.Length)
+        {
+            if (text[j] == '.')
+            {
+                j += 2;
+                break;
+            }
+            j++;
+        }
+        if (j < 5) j = 5;
+        text = text.PadLeft(5)[..j] + "s";
+        timer.text = text;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -58,6 +95,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             players[i].transform.position = playerSpawnPoints[i];
+            players[i].transform.GetChild(0).gameObject.SetActive(true);
         }
         fences.ClearAllTiles();
         for (int i = 0; i < bombs.Count; i++)
@@ -82,6 +120,39 @@ public class GameController : MonoBehaviour
     private void ResetGameInput(InputAction.CallbackContext context)
     {
         ResetGame();
+    }
+    public void PauseGame()
+    {
+        pausePanel.SetActive(true);
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].gameObject.SetActive(false);
+        }
+        totalTime += Time.time - currentTime;
+        gamePaused = true;
+    }
+
+    public void UnpauseGame()
+    {
+        pausePanel.SetActive(false);
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].gameObject.SetActive(true);
+        }
+        currentTime = Time.time;
+        gamePaused = false;
+    }
+
+    private void PauseGameInput(InputAction.CallbackContext context)
+    {
+        if (gamePaused)
+        {
+            UnpauseGame();
+        }
+        else
+        {
+            PauseGame();
+        }
     }
     public void AddBomb(Bomb bomb)
     {
@@ -115,22 +186,42 @@ public class GameController : MonoBehaviour
     public void OnEnable()
     {
         input.FindActionMap("Game").FindAction("Reset").performed += ResetGameInput;
+        input.FindActionMap("Game").FindAction("Pause").performed += PauseGameInput;
     }
     public void OnDisable()
     {
         input.FindActionMap("Game").FindAction("Reset").performed -= ResetGameInput;
+        input.FindActionMap("Game").FindAction("Pause").performed -= PauseGameInput;
     }
     public void Win()
     {
+        won = true;
         winPanel.SetActive(true);
         for (int i = 0; i < players.Length; i++)
         {
             players[i].gameObject.SetActive(false);
         }
+        totalTime += Time.time - currentTime;
+        if (Statistics.Instance.furthersLevel <= levelIndex)
+        {
+            Statistics.Instance.furthersLevel = levelIndex + 1;
+            Statistics.Instance.fastestTime[levelIndex] = totalTime;
+        }
+        else
+        {
+            if (Statistics.Instance.fastestTime[levelIndex] > totalTime)
+            {
+                Statistics.Instance.fastestTime[levelIndex] = totalTime;
+            }
+        }
     }
-    public void LoadLevel(int next)
+    public void ReloadLevel()
     {
-        SceneManager.LoadScene("Level" + (levelIndex + next));
+        SceneManager.LoadScene("Level" + levelIndex);
+    }
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene("Level" + (levelIndex + 1));
     }
     public void LoadHomeScreen()
     {

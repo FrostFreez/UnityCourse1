@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private PlaceAbility ability;
-    [SerializeField] private Text countText;
+    [SerializeField] public Text countText;
+    [SerializeField] private int nextCount = -1;
 
     private void Awake()
     {
@@ -12,8 +13,24 @@ public class AbilityUIManager : MonoBehaviour
         ability.change += UpdateUI;
     }
 
+    private void Update()
+    {
+        if (nextCount >= 0)
+        {
+            UpdateUI(nextCount);
+        }
+    }
+
     private void UpdateUI(int count)
     {
-        countText.text = count.ToString();
+        if (countText)
+        {
+            countText.text = count.ToString();
+            nextCount = -1;
+        }
+        else
+        {
+            nextCount = count;
+        }
     }
 }

@@ -51,7 +51,8 @@ MonoBehaviour:
   anim: {fileID: 0}
   rb: {fileID: 0}
   cooldownDuration: 2
-  explosionForce: 12
+  explosionForceP1: 22
+  explosionForceP2: 12
   explosionRadius: 3
   exploded: 0
 --- !u!212 &3155135515579112800
@@ -99,9 +100,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1345683853
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 2a7319e67109efb428505c9c06dbf315, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
