@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
                 break;
             case GameStage.Begin:
                 timer.text = Statistics.Seconds(GameController.instance.timerA, 6);
+                timer.color = Color.Lerp(Color.green, Color.red, GameController.instance.timerA / GameController.instance.waitTime);
                 break;
             case GameStage.Game:
                 timer.text = Statistics.Seconds(Statistics.instance.time, 6);
@@ -39,12 +40,15 @@ public class UIManager : MonoBehaviour
         switch (newStage)
         {
             case GameStage.WaitForPlayers:
+                timer.color = Color.black;
                 break;
             case GameStage.Begin:
                 break;
             case GameStage.Game:
+                timer.color = Color.hotPink;
                 break;
             case GameStage.End:
+                timer.color = Color.lightCyan;
                 break;
             case GameStage.NextLevel:
                 break;

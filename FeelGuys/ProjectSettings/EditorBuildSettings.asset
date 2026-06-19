@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Connecting.unity
     guid: 82742abdfbf82064bbabefa30887edfe
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
-    guid: af0af7ed0f1d6844e8be5e2ecb527701
-  - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: af0af7ed0f1d6844e8be5e2ecb527701
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

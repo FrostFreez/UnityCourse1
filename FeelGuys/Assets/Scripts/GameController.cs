@@ -22,6 +22,8 @@ public class GameController : MonoBehaviourPunCallbacks
 
     [SerializeField] public List<Player> playersWhoWon = new();
 
+    public int waitTime = 5;
+
     private void Awake()
     {
         if (instance == null)
@@ -88,7 +90,7 @@ public class GameController : MonoBehaviourPunCallbacks
             case GameStage.WaitForPlayers:
                 break;
             case GameStage.Begin:
-                timerA = 10;
+                timerA = waitTime;
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 break;
             case GameStage.Game:
@@ -96,7 +98,7 @@ public class GameController : MonoBehaviourPunCallbacks
             case GameStage.End:
                 break;
             case GameStage.NextLevel:
-                timerA = 10;
+                timerA = waitTime;
                 break;
         }
         stage = newStage;

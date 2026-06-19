@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ public class Obstacle : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         originalPosition = transform.position;
-        originalRotation = transform.rotation.eulerAngles;
+        originalRotation = transform.localRotation.eulerAngles;
         foreach (var p in path) positionTotalTime += p.time;
         foreach (var a in alignemnt) rotationTotalTime += a.time;
     }
@@ -122,7 +121,7 @@ public class Obstacle : MonoBehaviour
             }
 
             rb.angularVelocity = newRotation.eulerAngles;
-            transform.rotation = newRotation;
+            transform.localRotation = newRotation;
         }
 
     }

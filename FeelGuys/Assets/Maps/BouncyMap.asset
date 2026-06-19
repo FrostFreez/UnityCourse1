@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BouncyMap
   m_EditorClassIdentifier: Assembly-CSharp::Map
   map: {fileID: 7487385811185413146, guid: 8c3bf1f7a4f85e74dad8cd906483b7c2, type: 3}
-  start: {x: 0, y: 5.5, z: -25.5}
-  end: {x: 0, y: 5.5, z: 25.5}
+  start: {x: 0, y: 5.5, z: -15.5}
+  end: {x: 0, y: 5.5, z: 24.5}
